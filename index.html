@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harmonie Muziek Academie</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ---------- Kleuren ---------- */
+        :root {
+            --primary: #E63946;
+            --accent: #FF9F1C;
+            --secondary: #F1FAEE;
+            --success: #2A9D8F;
+            --dark: #1D3557;
+            --neutral: #6D6875;
+            --light: #ffffff;
+        }
+
+        /* ---------- Algemene reset ---------- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: var(--secondary); color: var(--dark); overflow-x: hidden; }
+
+        /* ---------- Header ---------- */
+        header {
+            position: fixed; top: 0; width: 100%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 10%; }
+        .logo { font-size: 1.8rem; font-weight: 800; color: var(--dark); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        .logo i { color: var(--primary); font-size: 2.2rem; }
+        .nav-links { display: flex; gap: 35px; }
+        .nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; position: relative; transition: 0.3s; }
+        .nav-links a:after { content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 2px; background: var(--primary); transition: 0.3s; }
+        .nav-links a:hover:after { width: 100%; }
+        .nav-actions { display: flex; gap: 15px; }
+        .btn { padding: 12px 30px; border-radius: 50px; border: none; cursor: pointer; font-weight: 600; transition: 0.3s; text-decoration: none; text-align: center; }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: var(--light); }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(230,57,70,0.3); }
+
+        /* ---------- Hero ---------- */
+
+        /* ---------- Features ---------- */
+        .features { padding: 100px 10%; background: var(--light); }
+        .features h2 { text-align: center; font-size: 2.5rem; margin-bottom: 10px; }
+        .features p { text-align: center; color: var(--neutral); margin-bottom: 60px; max-width: 700px; margin-left: auto; margin-right: auto; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 40px; }
+        .feature-card { background: var(--secondary); border-radius: 20px; padding: 40px 25px; text-align: center; transition: 0.3s; position: relative; }
+        .feature-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .feature-card i { font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; display: inline-block; }
+        .feature-card h3 { margin-bottom: 10px; font-size: 1.5rem; color: var(--dark); }
+        .feature-card p { color: var(--neutral); font-size: 1rem; }
+
+        /* ---------- Teachers ---------- */
+        .teachers { padding: 100px 10%; background: var(--secondary); }
+        .teachers h2 { text-align: center; font-size: 2.5rem; margin-bottom: 10px; }
+        .teachers p { text-align: center; color: var(--neutral); margin-bottom: 60px; max-width: 700px; margin-left:auto;margin-right:auto; }
+        .teachers-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 40px; }
+        .teacher-card { background: var(--light); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.3s; }
+        .teacher-card:hover { transform: translateY(-10px); }
+        .teacher-card img { width: 100%; height: 280px; object-fit: cover; }
+        .teacher-info { padding: 25px; }
+        .teacher-info h3 { margin-bottom: 5px; color: var(--dark); }
+        .teacher-info .specialty { color: var(--primary); font-weight: 600; display: block; margin-bottom: 15px; }
+        .teacher-info p { color: var(--neutral); font-size: 0.95rem; margin-bottom: 20px; }
+        .teacher-info .btn-outline { padding: 8px 20px; font-size: 0.9rem; }
+
+        /* ---------- Schedule ---------- */
+        .schedule { padding: 100px 10%; background: var(--light); }
+        .schedule h2 { text-align: center; font-size: 2.5rem; margin-bottom: 10px; }
+        .schedule p { text-align: center; color: var(--neutral); margin-bottom: 60px; max-width: 700px; margin-left:auto;margin-right:auto; }
+        .schedule-grid { display: grid; grid-template-columns: 100px repeat(5,1fr); gap: 1px; background: #f0f0f0; border-radius: 12px; overflow: hidden; }
+        .schedule-time, .schedule-day, .schedule-slot { background: var(--light); padding: 15px; text-align: center; font-weight: 600; }
+        .schedule-slot.has-lesson { background: rgba(168,218,220,0.2); cursor: pointer; transition: 0.3s; }
+        .schedule-slot.has-lesson:hover { background: rgba(168,218,220,0.4); }
+        .lesson-info { font-size: 0.85rem; }
+
+        /* ---------- Registration ---------- */
+        .registration { padding: 100px 10%; background: var(--secondary); }
+        .registration h2 { text-align: center; font-size: 2.5rem; margin-bottom: 10px; }
+        .registration p { text-align: center; color: var(--neutral); margin-bottom: 60px; max-width: 700px; margin-left:auto;margin-right:auto; }
+        .registration-container { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+        .registration-form, .registration-info { background: var(--light); border-radius: 20px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; margin-bottom: 10px; font-weight: 500; color: var(--dark); }
+        .form-control { width: 100%; padding: 15px 20px; border: 1px solid #e0e0e0; border-radius: 10px; font-size: 1rem; }
+        .form-control:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(230,57,70,0.1); }
+        .payment-methods { display: flex; gap: 15px; margin-top: 10px; }
+        .payment-method { flex: 1; border: 2px solid #e0e0e0; border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .payment-method.selected { border-color: var(--primary); background: rgba(230,57,70,0.05); }
+        .payment-method i { font-size: 2rem; margin-bottom: 10px; color: var(--primary); }
+        .registration-form button { width: 100%; }
+
+        /* ---------- Footer ---------- */
+        footer { background: var(--dark); color: white; padding: 80px 10% 40px; text-align: center; }
+        footer a { color: var(--secondary); text-decoration: none; transition: 0.3s; }
+        footer a:hover { color: var(--primary); }
+
+        /* ---------- Responsive ---------- */
+        @media(max-width: 1100px){ .registration-container{grid-template-columns:1fr;} }
+        @media(max-width: 768px){ .navbar{flex-direction:column; gap:15px;} .nav-links{flex-wrap:wrap; justify-content:center;} .hero h1{font-size:3rem;} .hero-buttons{flex-direction:column;}}
+        @media(max-width:576px){ .schedule-grid{overflow-x:auto;} .hero{padding:150px 10px 80px;} }
+
+        /* ---------- Moderne Knoppen ---------- */
+.btn {
+    padding: 14px 35px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+/* Primaire knop */
+.btn-primary {
+    background: linear-gradient(135deg, #E63946, #F3722C);
+    color: white;
+    box-shadow: 0 8px 20px rgba(230,57,70,0.3);
+}
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 30px rgba(230,57,70,0.4);
+}
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(255,255,255,0.15);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.btn-primary:hover::after { opacity: 1; }
+
+/* Outline knop */
+.btn-outline {
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    box-shadow: 0 6px 15px rgba(230,57,70,0.2);
+}
+.btn-outline:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 30px rgba(230,57,70,0.3);
+}
+
+/* Specifiek voor 'Bekijk Lessen' knop */
+.btn-outline.learn {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 6px 15px rgba(255,159,28,0.2);
+}
+.btn-outline.learn:hover {
+    background: var(--accent);
+    color: white;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 30px rgba(255,159,28,0.3);
+}
+/* ---------- Hero met achtergrond afbeelding ---------- */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    background: url('muziek.jpg') center/cover no-repeat;
+}
+
+/* Donkere overlay */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* 50% donker overlay */
+    z-index: 0;
+}
+
+.hero > div {
+    position: relative;
+    z-index: 1;
+    color: white; /* Tekst wit maken voor contrast */
+}
+
+.hero h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.hero h1 span {
+    color: #E63946; /* of een andere accentkleur */
+}
+
+.hero p {
+    font-size: 1.3rem;
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #f0f0f0;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <a href="#" class="logo"><i class="fas fa-music"></i> Harmonie Muziek Academie</a>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#lessons">Lessen</a>
+                <a href="#teachers">Docenten</a>
+                <a href="#schedule">Rooster</a>
+                <a href="#registration">Inschrijven</a>
+            </div>
+            <div class="nav-actions">
+                <a href="#registration" class="btn btn-primary">Inschrijven</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div>
+            <h1>Ontdek de <span>Muziek</span> in Jou</h1>
+            <p>Sluit je aan bij onze Harmonie Muziek Academie en ervaar de magie van muziek met professionele docenten en een inspirerende omgeving.</p>
+            <div class="hero-buttons">
+                <a href="#registration" class="btn btn-primary">Inschrijven</a>
+                <a href="#lessons" class="btn btn-outline learn">Bekijk Lessen</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="lessons">
+        <h2>Onze Lessen</h2>
+        <p>Wij bieden een breed scala aan muzieklessen voor alle leeftijden en niveaus.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-guitar"></i>
+                <h3>Gitaarlessen</h3>
+                <p>Leer akkoorden, technieken en speel je favoriete nummers op gitaar.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-drum"></i>
+                <h3>Drumlessen</h3>
+                <p>Ontwikkel ritmegevoel en speel de mooiste drumritmes.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-microphone"></i>
+                <h3>Zanglessen</h3>
+                <p>Verbeter je stemtechniek en leer verschillende zangstijlen.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Teachers -->
+    <section class="teachers" id="teachers">
+        <h2>Onze Docenten</h2>
+        <p>Professionele en gepassioneerde docenten die jou helpen groeien.</p>
+        <div class="teachers-grid">
+            <div class="teacher-card">
+                <img src="teacher1.jpg" alt="Docent 1">
+                <div class="teacher-info">
+                    <h3>Jan Peeters</h3>
+                    <span class="specialty">Gitaar</span>
+                    <p>Met 15 jaar ervaring als gitarist en docent inspireert Jan elke leerling.</p>
+                    <a href="#" class="btn-outline">Meer Info</a>
+                </div>
+            </div>
+            <div class="teacher-card">
+                <img src="teacher2.jpg" alt="Docent 2">
+                <div class="teacher-info">
+                    <h3>Lisa Vermeer</h3>
+                    <span class="specialty">Drums</span>
+                    <p>Lisa is een getalenteerde drumdocent die ritme tot leven brengt.</p>
+                    <a href="#" class="btn-outline">Meer Info</a>
+                </div>
+            </div>
+            <div class="teacher-card">
+                <img src="teacher3.jpg" alt="Docent 3">
+                <div class="teacher-info">
+                    <h3>Tom Janssen</h3>
+                    <span class="specialty">Zang</span>
+                    <p>Tom helpt leerlingen hun stem te ontdekken en vertrouwen te krijgen.</p>
+                    <a href="#" class="btn-outline">Meer Info</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule -->
+    <section class="schedule" id="schedule">
+        <h2>Ons Rooster</h2>
+        <p>Bekijk het wekelijkse rooster voor al onze muzieklessen.</p>
+        <div class="schedule-grid">
+            <div class="schedule-time"></div>
+            <div class="schedule-day">Maandag</div>
+            <div class="schedule-day">Dinsdag</div>
+            <div class="schedule-day">Woensdag</div>
+            <div class="schedule-day">Donderdag</div>
+            <div class="schedule-day">Vrijdag</div>
+
+            <div class="schedule-time">16:00</div>
+            <div class="schedule-slot has-lesson"><span class="lesson-info">Gitaar - Jan</span></div>
+            <div class="schedule-slot"></div>
+            <div class="schedule-slot has-lesson"><span class="lesson-info">Zang - Tom</span></div>
+            <div class="schedule-slot"></div>
+            <div class="schedule-slot"></div>
+
+            <div class="schedule-time">17:00</div>
+            <div class="schedule-slot"></div>
+            <div class="schedule-slot has-lesson"><span class="lesson-info">Drums - Lisa</span></div>
+            <div class="schedule-slot"></div>
+            <div class="schedule-slot has-lesson"><span class="lesson-info">Gitaar - Jan</span></div>
+            <div class="schedule-slot"></div>
+        </div>
+    </section>
+
+    <!-- Registration -->
+    <section class="registration" id="registration">
+        <h2>Inschrijven</h2>
+        <p>Meld je vandaag nog aan voor onze lessen en ontdek jouw muzikale talent.</p>
+        <div class="registration-container">
+            <div class="registration-form">
+                <form>
+                    <div class="form-group">
+                        <label>Naam</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Leeftijd</label>
+                        <input type="number" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Gekozen Les</label>
+                        <select class="form-control" required>
+                            <option>Gitaar</option>
+                            <option>Drums</option>
+                            <option>Zang</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Betaalmethode</label>
+                        <div class="payment-methods">
+                            <div class="payment-method" onclick="selectPayment(this)"><i class="fas fa-credit-card"></i> <br>Creditcard</div>
+                            <div class="payment-method" onclick="selectPayment(this)"><i class="fab fa-paypal"></i> <br>PayPal</div>
+                            <div class="payment-method" onclick="selectPayment(this)"><i class="fas fa-university"></i> <br>Overschrijving</div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Inschrijven</button>
+                </form>
+            </div>
+            <div class="registration-info">
+                <h3>Waarom onze Academie?</h3>
+                <p>Bij Harmonie Muziek Academie krijg je persoonlijke begeleiding van topdocenten, moderne faciliteiten en een inspirerende leeromgeving.</p>
+                <ul>
+                    <li>Professionele docenten</li>
+                    <li>Flexibele roosters</li>
+                    <li>Alle leeftijden welkom</li>
+                    <li>Grote muziekzaal en studio</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Harmonie Muziek Academie. Alle rechten voorbehouden.</p>
+        <p><a href="#">Privacybeleid</a> | <a href="#">Contact</a></p>
+    </footer>
+
+    <script>
+        function selectPayment(el){
+            document.querySelectorAll('.payment-method').forEach(pm => pm.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+    </script>
+</body>
+</html>
